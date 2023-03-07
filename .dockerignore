@@ -1,0 +1,47 @@
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env
+pip-log.txt
+pip-delete-this-directory.txt
+.tox
+# For coverage run -m pytest 
+.coverage       
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+# Excludes any log
+*.log     
+# Exclude git folder and .gitignore      
+.git*
+.mypy_cache
+# If coverage run -m pytest was runned
+.pytest_cache   
+.hypothesis
+#
+# Added in last version
+#
+# For subdirectories
+*/__pycache__    
+# If some coverage html was runned
+/htmlcov   
+# For future unittest     
+/tests          
+# Log not required (review)     
+# /log
+# Excludes .dockerignore and .dockerignore
+.dockerignore*  
+# Excludes bank_102.db (if the api was runned)
+*.db          
+# Excludes json files  
+*.json      
+# Excludes building config    
+Dockerfile      
+# Excludes README.md
+*.md            
+# Excludes docker-compose.yml
+*.yml

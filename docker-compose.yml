@@ -1,0 +1,25 @@
+# Declare how and where is going the container
+# To exec we need to build if we want to re-build also func
+## docker-compose build
+# To run the cont 
+## docker-compose up -d
+# To see the created containers
+## docker-compose ps
+# To access in the container
+## docker-compose exec ui-bank bash
+
+services:
+  ui-bank:
+  # Construct the service
+    build:
+      # The current directory
+      context: .
+      # Search the dockerfile to construct the container
+      dockerfile: Dockerfile 
+    # To conect both file systems
+    # Connect the file from the pc to the UI_web container
+    volumes:
+      - .:/UI_web
+    # To conect both ports
+    ports:
+      - 8050:8050
