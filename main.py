@@ -134,4 +134,15 @@ def router(url):
         return jumbotron
 
 if __name__ == "__main__":
-    app.run_server(debug=True, host='0.0.0.0', port=8050)
+    import optparse
+
+    opts = optparse.OptionParser()
+
+    opts.add_option("-d", "--debug", dest='debugmode', help="Indicate if True or False for the debug mode")
+    (options, arguments) = opts.parse_args()
+    
+    if options.debugmode == 'True':
+        debugmode = True
+    else:
+        debugmode = False
+    app.run_server(debug=debugmode, host='0.0.0.0', port=8050)
