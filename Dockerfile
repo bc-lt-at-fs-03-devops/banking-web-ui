@@ -11,4 +11,5 @@ COPY ./ /UI_web/
 EXPOSE 8050
 # Para que el contenedor este encendido continuamente (Un while inf)
 #CMD bash -c "while true; do sleep 1; done"
-CMD ['python' 'main.py', '-d', 'False']
+#CMD "python3 main.py -d False"
+CMD ["python", "main.py", "-d", "False"]
