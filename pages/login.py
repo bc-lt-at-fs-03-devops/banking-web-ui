@@ -73,7 +73,7 @@ def login_auth(n_clicks, user, pw, code):
         return no_update, no_update
     credentials = {'username':user,
                    "password":pw,
-                   "code" : code}
+                   "code" : str(code)}
     if authenticate_user(credentials):
         session['authed'] = True
         logger.debug('############### Token from main.py ##############')
@@ -81,12 +81,12 @@ def login_auth(n_clicks, user, pw, code):
         logger.debug(f'The token to search is {token.get_token()}')
         user_info = requests.get('http://127.0.0.1:9000/home', headers={'Authorization':token.get_token()})
         logger.debug(f'The request for the user info is: {user_info.status_code}')
-        logger.debug('Saving the info to de info carrier')
+        logger.debug('Saving the info to the info carrier')
         info = json.loads(user_info.text)
-        info_carrier.set_general(info['user'][0])
-        user_type = info_carrier.get_general()
+        info_carrier.set_general(info)
+        user_type = info_carrier.get_general()['type']
         logger.debug(f'The info was save and is: {info_carrier.get_general()}')
-        if user_type['type'] == 'Employee':
+        if user_type == 'Employee':
             return '/register', ''
         else:
             return '/home',''
