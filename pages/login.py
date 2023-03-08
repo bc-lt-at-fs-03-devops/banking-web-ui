@@ -83,13 +83,8 @@ def login_auth(n_clicks, user, pw, code):
         logger.debug(f'The request for the user info is: {user_info.status_code}')
         logger.debug('Saving the info to the info carrier')
         info = json.loads(user_info.text)
-        print(info)
         info_carrier.set_general(info)
-        print("hello")
-        print(info_carrier)
         user_type = info_carrier.get_general()['type']
-        print("hello11")
-        print(user_type)
         logger.debug(f'The info was save and is: {info_carrier.get_general()}')
         if user_type == 'Employee':
             return '/register', ''

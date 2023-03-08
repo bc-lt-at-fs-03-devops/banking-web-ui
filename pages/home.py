@@ -96,7 +96,6 @@ def home_layout():
     #logger.debug(f'The info was save and is: {info_carrier.get_specific()}')
 
     user_info_carrier = info_carrier.get_general()
-    print(f"user info in home  {user_info_carrier}")
     #accounts = info_carrier.get_specific()
     accordion_items =[dbc.AccordionItem(html.P(f"Bank Account {accounts[i]['cbu']}:  {round(accounts[i]['balance'], 2)}$"),title=f"Account {i+1}") for i in range(len(accounts))]
     return \
