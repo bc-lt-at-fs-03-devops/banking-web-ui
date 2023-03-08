@@ -24,7 +24,7 @@ def authenticate_user(credentials):
     '''
     
     logger.debug('Start the POST to the API')
-    response = requests.post('http://127.0.0.1:9000/login', 
+    response = requests.post('http://0.0.0.0:9000/login', 
                              json=credentials)
     if int(response.status_code) == 200:
         authed = True

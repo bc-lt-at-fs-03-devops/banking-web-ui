@@ -73,7 +73,8 @@ def login_auth(n_clicks, user, pw, code):
         return no_update, no_update
     credentials = {'username':user,
                    "password":pw,
-                   "code" : code}
+                   "code" : str(code)}
+    print(credentials)
     if authenticate_user(credentials):
         session['authed'] = True
         logger.debug('############### Token from main.py ##############')
