@@ -14,3 +14,4 @@ RUN pip install --no-cache-dir --upgrade -r /UI_web/requirements.txt
 COPY ./ /UI_web/
 EXPOSE 8050
 CMD ["python", "main.py", "-d", "False"]
+
