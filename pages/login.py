@@ -74,6 +74,7 @@ def login_auth(n_clicks, user, pw, code):
     credentials = {'username':user,
                    "password":pw,
                    "code" : str(code)}
+
     if authenticate_user(credentials):
         session['authed'] = True
         logger.debug('############### Token from main.py ##############')

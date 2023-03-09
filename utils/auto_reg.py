@@ -16,7 +16,7 @@ for user in new_users:
     response = requests.post('http://127.0.0.1:9000/users', json=user)
     # Load the response info for login
     login_data = json.loads(response.text)
-    
+    print(login_data)
     # Dictionary to login
     login = {"username": login_data["username"], 
              "password": login_data["password"], 
