@@ -63,7 +63,7 @@ def login_layout():
     [State('login-user','value'),
      State('login-password','value'),
      State('login-code', 'value')])
-def login_auth(n_clicks, user, pw, code):
+def login_auth(n_clicks, user, pw, code, test=False):
     '''
     check credentials
     if correct, authenticate the session
@@ -74,23 +74,24 @@ def login_auth(n_clicks, user, pw, code):
     credentials = {'username':user,
                    "password":pw,
                    "code" : str(code)}
-    print(credentials)
     if authenticate_user(credentials):
-        session['authed'] = True
+        if not test:
+            session['authed'] = True
         logger.debug('############### Token from main.py ##############')
         logger.debug('Searching the info of the User by the token')
         logger.debug(f'The token to search is {token.get_token()}')
         user_info = requests.get('http://127.0.0.1:9000/home', headers={'Authorization':token.get_token()})
         logger.debug(f'The request for the user info is: {user_info.status_code}')
-        logger.debug('Saving the info to de info carrier')
+        logger.debug('Saving the info to the info carrier')
         info = json.loads(user_info.text)
-        info_carrier.set_general(info['user'][0])
-        user_type = info_carrier.get_general()
+        info_carrier.set_general(info)
+        user_type = info_carrier.get_general()['type']
         logger.debug(f'The info was save and is: {info_carrier.get_general()}')
-        if user_type['type'] == 'Employee':
+        if user_type == 'Employee':
             return '/register', ''
         else:
             return '/home',''
-    session['authed'] = False
-    return no_update, dbc.Alert('Incorrect credentials.',color='danger',dismissable=True)
+    if not test:
+        session['authed'] = False
+        return no_update, dbc.Alert('Incorrect credentials.',color='danger',dismissable=True)
 
