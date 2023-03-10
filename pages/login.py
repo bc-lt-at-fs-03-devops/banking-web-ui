@@ -63,7 +63,7 @@ def login_layout():
     [State('login-user','value'),
      State('login-password','value'),
      State('login-code', 'value')])
-def login_auth(n_clicks, user, pw, code):
+def login_auth(n_clicks, user, pw, code, test=False):
     '''
     check credentials
     if correct, authenticate the session
@@ -74,9 +74,9 @@ def login_auth(n_clicks, user, pw, code):
     credentials = {'username':user,
                    "password":pw,
                    "code" : str(code)}
-
     if authenticate_user(credentials):
-        session['authed'] = True
+        if not test:
+            session['authed'] = True
         logger.debug('############### Token from main.py ##############')
         logger.debug('Searching the info of the User by the token')
         logger.debug(f'The token to search is {token.get_token()}')
@@ -91,6 +91,7 @@ def login_auth(n_clicks, user, pw, code):
             return '/register', ''
         else:
             return '/home',''
-    session['authed'] = False
-    return no_update, dbc.Alert('Incorrect credentials.',color='danger',dismissable=True)
+    if not test:
+        session['authed'] = False
+        return no_update, dbc.Alert('Incorrect credentials.',color='danger',dismissable=True)
 

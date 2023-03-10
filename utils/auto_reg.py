@@ -6,8 +6,8 @@ import requests
 data_dir= os.path.join(os.path.dirname(__file__), '..', 'data')
 user_json = os.path.join(data_dir, 'new_us.json')
 list_login = list()
-print(os.path.dirname(__file__))
-print(data_dir)
+#print(os.path.dirname(__file__))
+#print(data_dir)
 with open(user_json) as f_json:
     new_users = json.load(f_json)
 
@@ -16,35 +16,39 @@ for user in new_users:
     response = requests.post('http://127.0.0.1:9000/users', json=user)
     # Load the response info for login
     login_data = json.loads(response.text)
-    print(login_data)
+    #print(login_data)
     # Dictionary to login
     login = {"username": login_data["username"], 
              "password": login_data["password"], 
              "code": login_data["code"]}
 
     token = requests.post('http://127.0.0.1:9000/login', json=login)
-    cbu = login_data['account_cbu']
-    login_data['account_cbu'] = [cbu]
+    cbu = login_data['cbu']
+    login_data['cbu'] = [cbu]
     if user['type'] == 'User':
         the_token = json.loads(token.text)['access_token']
         # new account
         if random.randint(0, 1) == 1:
             new_account = requests.post('http://127.0.0.1:9000/accounts', headers={'Authorization':the_token})
             account = json.loads(new_account.text)
-            login_data['account_cbu'].append(account['account']['cbu'])
+            #print(account)
+            login_data['cbu'].append(account['cbu'])
         if random.randint(0, 1) == 1:
             new_account = requests.post('http://127.0.0.1:9000/accounts', headers={'Authorization':the_token})
             account = json.loads(new_account.text)
-            login_data['account_cbu'].append(account['account']['cbu'])
+            #print(account)
+            login_data['cbu'].append(account['cbu'])
         list_login.append(login_data)
         
     # Save the info for login
+    login_data['type'] = user['type']
     with open(os.path.join(data_dir, 'new_us.txt'), "a") as f:
-        f.write('\n ' + user['type'] + json.dumps(login_data))
+        f.write('\n ' + json.dumps(login_data))
 
 
 for i in range(len(list_login)):
-    for account in list_login[i]['account_cbu']:
+    #print(list_login)
+    for account in list_login[i]['cbu']:
         # Dictionary to login
         login = {"username": list_login[i]["username"], 
                 "password": list_login[i]["password"], 
@@ -54,7 +58,7 @@ for i in range(len(list_login)):
         the_token = json.loads(token.text)['access_token']
             
         new_account = requests.get('http://127.0.0.1:9000/home', headers={'Authorization':the_token})
-        user_info = json.loads(new_account.text)['user'][0]
+        user_info = json.loads(new_account.text)
 
         deposit_info = {
                     "transaction_type": "deposit",
@@ -69,7 +73,7 @@ for i in range(len(list_login)):
         copy_list.pop(i)
 
         for _ in range(50):
-            choice_account = random.choice(random.choice(copy_list)['account_cbu'])
+            choice_account = random.choice(random.choice(copy_list)['cbu'])
             
             transac_info = {
                     "transaction_type": "transaction",
@@ -81,5 +85,4 @@ for i in range(len(list_login)):
             
             requests.post('http://127.0.0.1:9000/transaction', json=transac_info)
             
-#print(list_login)
     
