@@ -1,5 +1,10 @@
 *.log
-# Created by https://www.toptal.com/developers/gitignore/api/linux,windows,macos,python,visualstudiocode,git,flask
+.pytest_cache
+.coverage
+/htmlcov
+data/*.txt
+# Created by https://ww
+.toptal.com/developers/gitignore/api/linux,windows,macos,python,visualstudiocode,git,flask
 # Edit at https://www.toptal.com/developers/gitignore?templates=linux,windows,macos,python,visualstudiocode,git,flask
 
 ### Flask ###
