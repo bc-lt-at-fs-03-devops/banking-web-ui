@@ -280,14 +280,14 @@ def on_button_click(
         user_data = {
             "first_name": value_firstname,
             "last_name": value_lastname,
-            "document_id": value_national_id,
+            "document_id": str(value_national_id),
             "type": value_type,
             "birthday": value_birth_date,
             "country": value_country,
             "city": value_city,
             "address": value_address_field,
             "email": value_email,
-            "phone_number": value_cellphone_number,
+            "phone_number": str(value_cellphone_number),
         }
         logger.debug(f'Info for register: {user_data}')
         val, issue = form_val(user_data)
@@ -300,7 +300,7 @@ def on_button_click(
                             color='danger',
                             dismissable=True)
             logger.debug(f'The response is {response.status_code}')
-            modal_body = create_modal_body(json_response["username"], json_response["password"], json_response["code"], json_response["account_cbu"])
+            modal_body = create_modal_body(json_response["username"], json_response["password"], json_response["code"], json_response["cbu"])
             logger.debug(f'The credentials created were:  {json_response}')
             with open(current_path, "w") as f:
                 f.write(json.dumps(json_response))
