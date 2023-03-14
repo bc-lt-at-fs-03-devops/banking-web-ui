@@ -9,6 +9,11 @@
 ## docker-compose exec ui-bank bash
 
 services:
+  #ui-bank-test:
+  #  build: 
+  #    context: .
+  #    dockerfile: Dockerfile
+  #    target: test
   ui-bank:
   # Construct the service
     build:
