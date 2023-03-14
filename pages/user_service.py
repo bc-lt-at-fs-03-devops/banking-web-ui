@@ -8,6 +8,12 @@ from datetime import date
 from auth import authenticate_user, validate_login_session
 from flask import session
 
+import os
+data_dir= os.path.join(os.path.dirname(__file__), '..', 'data')
+with open(os.path.join(data_dir, '.ip'), "r") as f:
+    IP_ADRESS = f.readline()
+
+
 # Utils
 from utils.logging_web import log_web
 from utils.validation import deposit_val, withdraw_val, transaction_val
@@ -197,7 +203,7 @@ def make_deposit_click(
     val, issue = deposit_val(deposit_data)
     if val:
         logger.debug('Send request to save the deposit data')
-        response = requests.post('http://127.0.0.1:9000/transaction', json=deposit_data)
+        response = requests.post('http://' + IP_ADRESS + ':9000/transaction', json=deposit_data)
         if response.status_code == 400:
              return dbc.Alert("Error with account destiny or amount",
                             color='danger',
@@ -247,7 +253,7 @@ def make_withdraw_click(
     val, issue = withdraw_val(withdraw_data)
     if val:
         logger.debug('Send request to save the withdraw data')
-        response = requests.post('http://127.0.0.1:9000/transaction', json=withdraw_data)
+        response = requests.post('http://' + IP_ADRESS + ':9000/transaction', json=withdraw_data)
         if response.status_code == 400:
              return dbc.Alert("Error with account destiny or amount",
                             color='danger',
@@ -298,7 +304,7 @@ def make_transaction_click(
     val, issue = transaction_val(transaction_data)
     if val:
         logger.debug('Send request to save the transaction data')
-        response = requests.post('http://127.0.0.1:9000/transaction', json=transaction_data)
+        response = requests.post('http://' + IP_ADRESS + ':9000/transaction', json=transaction_data)
         if response.status_code == 400:
              return dbc.Alert("Error with account destiny or amount",
                             color='danger',

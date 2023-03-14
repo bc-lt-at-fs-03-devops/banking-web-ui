@@ -7,6 +7,11 @@ from dash import html, dcc, Input, Output, callback, State, no_update
 from datetime import date
 from auth import authenticate_user, validate_login_session
 from flask import session
+import os
+data_dir= os.path.join(os.path.dirname(__file__), '..', 'data')
+with open(os.path.join(data_dir, '.ip'), "r") as f:
+    IP_ADRESS = f.readline()
+
 
 # Utils
 from utils.logging_web import log_web
@@ -293,7 +298,7 @@ def on_button_click(
         val, issue = form_val(user_data)
         if val:
             logger.debug('Send request to save the')
-            response = requests.post('http://127.0.0.1:9000/users', json=user_data)
+            response = requests.post('http://' + IP_ADRESS + ':9000/users', json=user_data)
             json_response = json.loads(response.text)
             if response.status_code == 400:
              return dbc.Alert("Error invalid user data",

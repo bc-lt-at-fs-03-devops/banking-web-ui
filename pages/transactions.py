@@ -6,6 +6,11 @@ from dash import html, dcc, Input, Output, callback, State, no_update
 from datetime import date
 from auth import authenticate_user, validate_login_session
 from flask import session
+import os
+data_dir= os.path.join(os.path.dirname(__file__), '..', 'data')
+with open(os.path.join(data_dir, '.ip'), "r") as f:
+    IP_ADRESS = f.readline()
+
 
 # Utils
 from utils.logging_web import log_web
@@ -222,7 +227,7 @@ def make_transaction_click(
     val, issue = transaction_val(transaction_data)
     if val:
         logger.debug('Send request to save the transaction data')
-        response = requests.post('http://127.0.0.1:9000/transaction', json=transaction_data)
+        response = requests.post('http://' + IP_ADRESS + ':9000/transaction', json=transaction_data)
         if response.status_code == 400:
              return dbc.Alert("Error with account destiny or amount",
                             color='danger',

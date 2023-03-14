@@ -7,6 +7,11 @@ from auth import authenticate_user, validate_login_session
 import requests
 
 from flask import session
+import os
+data_dir= os.path.join(os.path.dirname(__file__), '..', 'data')
+with open(os.path.join(data_dir, '.ip'), "r") as f:
+    IP_ADRESS = f.readline()
+
 
 # Info carrier
 from utils.data import Data_carrier
@@ -82,7 +87,7 @@ sidebar = html.Div(
 # home layout content
 @validate_login_session
 def home_layout():
-    #accounts_info = requests.get('http://127.0.0.1:9000/accounts', headers={'Authorization':token.get_token()})
+    accounts_info = requests.get('http://' + IP_ADRESS + ':9000/accounts', headers={'Authorization':token.get_token()})
     accounts = [{
         "balance": 0,
         "cbu": 10200040002,
@@ -90,13 +95,13 @@ def home_layout():
     }]
     #logger.debug(f'The request for the account info is: {accounts_info.status_code}')
     logger.debug('Saving the info to de info carrier')
-    #info = json.loads(accounts_info.text)
-    #info_carrier.set_specific(info['accounts'])
+    info = json.loads(accounts_info.text)
+    info_carrier.set_specific(info['accounts'])
     logger.debug(f'The accounts are {accounts}')
     #logger.debug(f'The info was save and is: {info_carrier.get_specific()}')
 
     user_info_carrier = info_carrier.get_general()
-    #accounts = info_carrier.get_specific()
+    accounts = info_carrier.get_specific()
     accordion_items =[dbc.AccordionItem(html.P(f"Bank Account {accounts[i]['cbu']}:  {round(accounts[i]['balance'], 2)}$"),title=f"Account {i+1}") for i in range(len(accounts))]
     return \
         html.Div([
