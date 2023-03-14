@@ -3,11 +3,7 @@ on:
   push:
     branches:
       - main
-<<<<<<< HEAD
       - feature/host-selection-api-conection
-=======
-      - feature/ci-workflow-dockerhub
->>>>>>> 085ff44b38142fcaf07a0a2ee3037ab4dabfbf7d
 jobs:
   # This section can't be done cause the problem to execute the api at the same time of the ui-web
   #sonnar-scanner-analysis:
