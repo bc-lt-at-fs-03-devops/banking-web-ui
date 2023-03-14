@@ -2,8 +2,18 @@ import os
 import json
 import random
 import requests
+import optparse
 
-IP = '54.90.55.227'
+opts = optparse.OptionParser()
+# Argument to specify the IP
+opts.add_option('-i', '--ip', dest='ip_str', help='Indicate the ip address for the api connection')
+# Obtain the arguments
+(options, arguments) = opts.parse_args()
+
+if options.ip_str != None:
+    IP = options.ip_str
+else:
+    IP = '0.0.0.0'
 
 data_dir= os.path.join(os.path.dirname(__file__), '..', 'data')
 user_json = os.path.join(data_dir, 'new_us.json')
