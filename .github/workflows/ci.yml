@@ -63,7 +63,7 @@ jobs:
           echo "MAJOR=${{ vars.MAJOR }}" > .env
           echo "MINOR=${{ vars.MINOR }}" >> .env
           echo "RUN_NUMBER=12" >> .env
-          echo "HOST_API=${{ vars.IP_API }}" >> .env
+          echo "HOST_API=${{ secrets.IP_API }}" >> .env
           chmod 400 private-key
           ls -lah
           scp \
