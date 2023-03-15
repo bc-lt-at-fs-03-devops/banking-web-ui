@@ -1,4 +1,18 @@
-import dash
+import os
+import optparse
+
+opts = optparse.OptionParser()
+# Argument to change the debug mode
+opts.add_option("-d", "--debug", dest='debugmode', help="Indicate if True or False for the debug mode")
+        
+# Argument to specify the IP
+opts.add_option('-i', '--ip', dest='ip_str', help='Indicate the ip address for the api connection')
+# Obtain the arguments
+(options, arguments) = opts.parse_args()
+data_dir= os.path.join(os.path.dirname(__file__), 'data')
+with open(os.path.join(data_dir, '.ip'), "w") as f:
+    f.write(options.ip_str)
+
 import dash_bootstrap_components as dbc
 from dash import Dash, dcc, html, Input, Output, no_update, ALL, State, callback
 
@@ -21,21 +35,6 @@ token = Token()
 # Info carrier
 from utils.data import Data_carrier
 info_carrier = Data_carrier()
-import os
-import optparse
-
-opts = optparse.OptionParser()
-# Argument to change the debug mode
-opts.add_option("-d", "--debug", dest='debugmode', help="Indicate if True or False for the debug mode")
-        
-# Argument to specify the IP
-opts.add_option('-i', '--ip', dest='ip_str', help='Indicate the ip address for the api connection')
-            
-# Obtain the arguments
-(options, arguments) = opts.parse_args()
-data_dir= os.path.join(os.path.dirname(__file__), 'data')
-with open(os.path.join(data_dir, '.ip'), "w") as f:
-    f.write(options.ip_str)
 
 app = Dash(
     __name__,
