@@ -3,11 +3,16 @@ from functools import wraps
 from dash import html, dcc
 from flask import session
 import requests
-
-
 # Logger
 from utils.logging_web import log_web
 logger = log_web()
+
+import os
+data_dir= os.path.join(os.path.dirname(__file__), 'data')
+with open(os.path.join(data_dir, '.ip'), "r") as f:
+    IP_ADRESS = f.readline()
+    logger.debug('aut.py the ip is: ' + IP_ADRESS)
+
 # Token carrier
 from utils.token_singleton import Token
 token = Token()
@@ -24,7 +29,8 @@ def authenticate_user(credentials):
     '''
     
     logger.debug('Start the POST to the API')
-    response = requests.post('http://0.0.0.0:9000/login', 
+    logger.debug('http://' + IP_ADRESS + ':9000/login')
+    response = requests.post('http://' + IP_ADRESS + ':9000/login', 
                              json=credentials)
     if int(response.status_code) == 200:
         authed = True

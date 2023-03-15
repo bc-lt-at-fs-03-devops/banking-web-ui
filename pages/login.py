@@ -16,6 +16,7 @@ logger = log_web()
 # Token carrier
 from utils.token_singleton import Token
 token = Token()
+import os
 
 # login layout content
 def login_layout():
@@ -74,13 +75,17 @@ def login_auth(n_clicks, user, pw, code, test=False):
     credentials = {'username':user,
                    "password":pw,
                    "code" : str(code)}
+    data_dir= os.path.join(os.path.dirname(__file__), '..', 'data')
+    with open(os.path.join(data_dir, '.ip'), "r") as f:
+        IP_ADRESS = f.readline()
+    logger.debug(IP_ADRESS)
     if authenticate_user(credentials):
         if not test:
             session['authed'] = True
         logger.debug('############### Token from main.py ##############')
         logger.debug('Searching the info of the User by the token')
         logger.debug(f'The token to search is {token.get_token()}')
-        user_info = requests.get('http://127.0.0.1:9000/home', headers={'Authorization':token.get_token()})
+        user_info = requests.get('http://' + IP_ADRESS + ':9000/home', headers={'Authorization':token.get_token()})
         logger.debug(f'The request for the user info is: {user_info.status_code}')
         logger.debug('Saving the info to the info carrier')
         info = json.loads(user_info.text)

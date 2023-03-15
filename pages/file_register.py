@@ -15,6 +15,11 @@ from flask import session
 from utils.logging_web import log_web
 from utils.validation import form_val
 
+import os
+data_dir= os.path.join(os.path.dirname(__file__), '..', 'data')
+with open(os.path.join(data_dir, '.ip'), "r") as f:
+    IP_ADRESS = f.readline()
+
 # Setup logger
 logger = log_web()
 
@@ -182,7 +187,7 @@ def update_output(contents, filename, last_modified):
             val, issue = form_val(user)
             if val:
                 logger.debug('Send request to save the')
-                response = requests.post('http://127.0.0.1:9000/users', json=user)
+                response = requests.post('http://' + IP_ADRESS + ':9000/users', json=user)
                 logger.debug(f'The response is {response.status_code}')
                 
                 json_response = json.loads(response.text)

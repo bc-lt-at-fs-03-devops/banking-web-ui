@@ -18,5 +18,7 @@ WORKDIR /UI_web
 COPY requirements.txt /UI_web/requirements.txt
 RUN pip install --no-cache-dir --upgrade -r /UI_web/requirements.txt
 COPY ./ /UI_web/
+ENV HOST=0.0.0.0
 EXPOSE 8050
-CMD ["python", "main.py", "-d", "False"]
+CMD python main.py -d False --ip ${HOST}
+#CMD ["python", "main.py", "-d", "False", "--ip", "${HOST}"]

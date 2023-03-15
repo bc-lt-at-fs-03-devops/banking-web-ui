@@ -3,6 +3,7 @@
 .coverage
 /htmlcov
 data/*.txt
+.ip
 # Created by https://ww.toptal.com/developers/gitignore/api/linux,windows,macos,python,visualstudiocode,git,flask
 # Edit at https://www.toptal.com/developers/gitignore?templates=linux,windows,macos,python,visualstudiocode,git,flask
 

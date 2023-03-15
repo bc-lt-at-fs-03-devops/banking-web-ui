@@ -9,6 +9,11 @@ from dash import html, dcc, Input, Output, callback, State, no_update, dash_tabl
 from auth import authenticate_user, validate_login_session
 from flask import session
 
+import os
+data_dir= os.path.join(os.path.dirname(__file__), '..', 'data')
+with open(os.path.join(data_dir, '.ip'), "r") as f:
+    IP_ADRESS = f.readline()
+
 # Info carrier
 from utils.data import Data_carrier
 info_carrier = Data_carrier()
@@ -158,7 +163,7 @@ def logout_(n_clicks):
     prevent_initial_call=True,
 )
 def update_graph(value, year, month):
-    response = requests.get(f'http://127.0.0.1:9000/account/{value}')
+    response = requests.get(f'http://' + IP_ADRESS + ':9000/account/{value}')
     data = json.loads(response.text)
 
     date = datetime.date.fromisoformat(data['creation_date'])
@@ -178,7 +183,7 @@ def update_graph(value, year, month):
             "cbu": value
         }
 
-        transactions_report = requests.get('http://127.0.0.1:9000/report_transactions', json=reports)
+        transactions_report = requests.get('http://' + IP_ADRESS + ':9000/report_transactions', json=reports)
         if transactions_report.status_code == 200:
             dict_transaction = json.loads(transactions_report.text)
             print(dict_transaction['transactions'])
