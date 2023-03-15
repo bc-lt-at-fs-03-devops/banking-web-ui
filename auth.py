@@ -3,6 +3,11 @@ from functools import wraps
 from dash import html, dcc
 from flask import session
 import requests
+
+import os
+data_dir= os.path.join(os.path.dirname(__file__), 'data')
+with open(os.path.join(data_dir, '.ip'), "r") as f:
+    IP_ADRESS = f.readline()
 # Logger
 from utils.logging_web import log_web
 logger = log_web()

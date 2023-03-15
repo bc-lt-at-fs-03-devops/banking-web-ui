@@ -1,0 +1,8 @@
+services:
+  UIweb:
+    image: aolguin89/bank-web-ui:$MAJOR.$MINOR-$RUN_NUMBER
+    container_name: banking-Uiweb
+    ports:
+      - 8050:8050
+    environment:
+      - HOST=$HOST_API

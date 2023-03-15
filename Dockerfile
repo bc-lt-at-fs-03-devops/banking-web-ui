@@ -15,6 +15,7 @@
 # Stage 2 - runs the UI
 FROM python:3.11.2-slim-buster
 WORKDIR /UI_web
+ENV HOST=0.0.0.0
 COPY requirements.txt /UI_web/requirements.txt
 RUN pip install --no-cache-dir --upgrade -r /UI_web/requirements.txt
 COPY ./ /UI_web/
