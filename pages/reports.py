@@ -163,7 +163,7 @@ def logout_(n_clicks):
     prevent_initial_call=True,
 )
 def update_graph(value, year, month):
-    response = requests.get(f'http://' + IP_ADRESS + ':9000/account/{value}')
+    response = requests.get(f'http://' + IP_ADRESS + ':9000/accounts/{value}')
     data = json.loads(response.text)
 
     date = datetime.date.fromisoformat(data['creation_date'])
@@ -180,7 +180,7 @@ def update_graph(value, year, month):
         reports = {
             "year": year,
             "month": month,
-            "cbu": value
+            "cbu": int(value)
         }
 
         transactions_report = requests.get('http://' + IP_ADRESS + ':9000/report_transactions', json=reports)

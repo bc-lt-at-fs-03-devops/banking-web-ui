@@ -43,12 +43,12 @@ for user in new_users:
         if random.randint(0, 1) == 1:
             new_account = requests.post('http://' + IP + ':9000/accounts', headers={'Authorization':the_token})
             account = json.loads(new_account.text)
-            #print(account)
+            print(account)
             login_data['cbu'].append(account['cbu'])
         if random.randint(0, 1) == 1:
             new_account = requests.post('http://' + IP + ':9000/accounts', headers={'Authorization':the_token})
             account = json.loads(new_account.text)
-            #print(account)
+            print(account)
             login_data['cbu'].append(account['cbu'])
         list_login.append(login_data)
         
@@ -74,12 +74,12 @@ for i in range(len(list_login)):
 
         deposit_info = {
                     "transaction_type": "deposit",
-                    "cbu_origin": user_info['document_id'],
-                    "cbu_destiny": account,
+                    "origin_account": int(user_info['document_id']),
+                    "final_account": int(account),
                     "description": "test deposit",
                     "amount": 5000.0
                 }
-        requests.post('http://' + IP + ':9000/transaction', json=deposit_info)
+        requests.post('http://' + IP + ':9000/transactions', json=deposit_info)
         
         copy_list = list_login.copy()
         copy_list.pop(i)
@@ -89,12 +89,12 @@ for i in range(len(list_login)):
             
             transac_info = {
                     "transaction_type": "transaction",
-                    "cbu_origin": account,
-                    "cbu_destiny": choice_account,
+                    "origin_account": int(account),
+                    "final_account": int(choice_account),
                     "description": "test deposit",
                     "amount": round(25 * random.random(), 2)
                 }
-            
-            requests.post('http://' + IP + ':9000/transaction', json=transac_info)
+            #print(transac_info)
+            requests.post('http://' + IP + ':9000/transactions', json=transac_info)
             
     
