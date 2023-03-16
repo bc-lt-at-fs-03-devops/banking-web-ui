@@ -217,17 +217,17 @@ def make_transaction_click(
     logger.debug('The info from the transfer transactions is save')
     transaction_data = {
         "transaction_type": 'transaction',
-        "cbu_origin": value_origin,
-        "cbu_destiny": value_destiny,
+        "origin_account": int(value_origin),
+        "final_account": int(value_destiny),
         "description": 'Some random description',
         "amount": value_amount,
     }
-    print(transaction_data)
     logger.debug(f'Info for the transaction: {transaction_data}')
     val, issue = transaction_val(transaction_data)
     if val:
         logger.debug('Send request to save the transaction data')
-        response = requests.post('http://' + IP_ADRESS + ':9000/transaction', json=transaction_data)
+        response = requests.post('http://' + IP_ADRESS + ':9000/transactions', json=transaction_data)
+        print(response.status_code)
         if response.status_code == 400:
              return dbc.Alert("Error with account destiny or amount",
                             color='danger',

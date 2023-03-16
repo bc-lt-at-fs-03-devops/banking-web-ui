@@ -68,9 +68,9 @@ def deposit_val(deposit_data):
     logger.debug('Initiate the deposit validation')
     
     try:
-        if len(deposit_data['cbu_origin']) == None:
+        if len(deposit_data['origin_account']) == None:
             issue = 'DNI is empty'  
-        elif len(deposit_data['cbu_destiny']) == None:
+        elif len(deposit_data['final_account']) == None:
             issue = 'CBU destiny is empty'
         elif deposit_data['amount'] == None:
             issue = 'Amount is empty'
@@ -79,9 +79,9 @@ def deposit_val(deposit_data):
             validation = True
             issue = ''
     except:  
-        if deposit_data['cbu_origin'] == None:
+        if deposit_data['origin_account'] == None:
             issue = 'DNI is empty'  
-        elif deposit_data['cbu_destiny'] == None:
+        elif deposit_data['final_account'] == None:
             issue = 'CBU destiny is empty'
         elif deposit_data['amount'] == None:
             issue = 'Amount is empty'
@@ -97,9 +97,9 @@ def withdraw_val(withdraw_data):
     logger.debug('Initiate the withdraw validation')
     
     try:
-        if len(withdraw_data['cbu_origin']) == None:
+        if len(withdraw_data['origin_account']) == None:
             issue = 'DNI is empty'  
-        elif len(withdraw_data['cbu_destiny']) == None:
+        elif len(withdraw_data['final_account']) == None:
             issue = 'CBU destiny is empty'
         elif withdraw_data['amount'] == None:
             issue = 'Amount is empty'
@@ -108,9 +108,9 @@ def withdraw_val(withdraw_data):
             validation = True
             issue = ''
     except:  
-        if withdraw_data['cbu_origin'] == None:
+        if withdraw_data['origin_account'] == None:
             issue = 'DNI is empty'  
-        elif withdraw_data['cbu_destiny'] == None:
+        elif withdraw_data['final_account'] == None:
             issue = 'CBU destiny is empty'
         elif withdraw_data['amount'] == None:
             issue = 'Amount is empty'
@@ -125,9 +125,9 @@ def transaction_val(transaction_data):
     logger.debug('Initiate the transaction validation')
     
     try:
-        if len(transaction_data['cbu_origin']) == None:
+        if len(transaction_data['origin_account']) == None:
             issue = 'DNI is empty'  
-        elif len(transaction_data['cbu_destiny']) == None:
+        elif len(transaction_data['final_account']) == None:
             issue = 'CBU destiny is empty'
         elif transaction_data['amount'] == None:
             issue = 'Amount is empty'
@@ -136,9 +136,9 @@ def transaction_val(transaction_data):
             validation = True
             issue = ''
     except:  
-        if transaction_data['cbu_origin'] == None:
+        if transaction_data['origin_account'] == None:
             issue = 'DNI is empty'  
-        elif transaction_data['cbu_destiny'] == None:
+        elif transaction_data['final_account'] == None:
             issue = 'CBU destiny is empty'
         elif transaction_data['amount'] == None:
             issue = 'Amount is empty'
