@@ -5,33 +5,16 @@ on:
       - main
 jobs:
   # This section can't be done cause the problem to execute the api at the same time of the ui-web
-  #sonnar-scanner-analysis:
-    #runs-on: ubuntu-latest
-    #steps:
-    #  - name: Checkout Code
-    #    uses: actions/checkout@v2
-    #  - name: Setup Python
-    #    uses: actions/setup-python@v2
-    #    with:
-    #      python-version: ${{ matrix.python }}
-    #  - name: Install tox and any other packages
-    #    run: pip install tox
-    #  - name: Run tox
-    #    run: tox -e py
-    #  - name: SonarCloud Scan
-    #    uses: sonarsource/sonarcloud-github-action@master
-    #    env:
-    #      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    #      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-    #  - name: SonarQube Quality Gate check
-    #    id: sonarqube-quality-gate-check
-    #    uses: sonarsource/sonarqube-quality-gate-action@master
-    #    timeout-minutes: 5
-    #    env:
-    #      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      #    SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-      #- name: "Example show SonarQube Quality Gate Status value"
-      #  run: echo "The Quality Gate status is ${{ steps.sonarqube-quality-gate-check.outputs.quality-gate-status }}"
+  sonnar-scanner-analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   build-image:
     if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
@@ -49,3 +32,33 @@ jobs:
           context: .
           push: true
           tags: aolguin89/bank-web-ui:${{ vars.MAJOR }}.${{ vars.MINOR }}-${{ github.run_number }}
+  deploy:
+    needs: [build-image, sonnar-scanner-analysis]
+    if: ${{ github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: copy file via ssh password
+        run: |
+          echo "${{ secrets.EC2_SSH_KEY }}" > private-key
+          echo "MAJOR=${{ vars.MAJOR }}" > .env
+          echo "MINOR=${{ vars.MINOR }}" >> .env
+          echo "RUN_NUMBER=${{ github.run_number }" >> .env
+          echo "HOST_API=${{ secrets.IP_API }}" >> .env
+          chmod 400 private-key
+          ls -lah
+          scp \
+            -o StrictHostKeyChecking=no \
+            -i private-key \
+            docker-compose-deploy.yaml .env \
+            ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_IP_PUBLIC_UI }}:/home/ubuntu
+      - name: Connect to EC2 instance
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_IP_PUBLIC_UI }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            # run commands on the remote server
+            sudo docker compose -f /home/ubuntu/docker-compose-deploy.yaml up -d --force-recreate
