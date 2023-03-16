@@ -170,9 +170,6 @@ def update_graph(value, year, month):
     date_list = [date.year]
     for y in range(datetime.date.today().year-date.year):
         date_list.append(date.year + y)
-
-    print(value, year, month)
-    print(date_list)
     
     if year is None and month is None:
         return no_update, years_data(date_list)
@@ -186,7 +183,6 @@ def update_graph(value, year, month):
         transactions_report = requests.get('http://' + IP_ADRESS + ':9000/report_transactions', json=reports)
         if transactions_report.status_code == 200:
             dict_transaction = json.loads(transactions_report.text)
-            print(dict_transaction['transactions'])
             
             df_dict = {
                 'amount': [],

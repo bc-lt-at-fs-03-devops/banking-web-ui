@@ -198,7 +198,7 @@ def make_deposit_click(
         "description": 'Some random description',
         "amount": value_amount,
     }
-    print(deposit_data)
+
     logger.debug(f'Info for the deposit: {deposit_data}')
     val, issue = deposit_val(deposit_data)
     if val:
@@ -208,11 +208,7 @@ def make_deposit_click(
              return dbc.Alert("Error with account destiny or amount",
                             color='danger',
                             dismissable=True)
-        print('-'*30)
-        print(response.headers)
-        print('-'*30)
-        print(response.json)
-        print(response.text)
+
         return dbc.Alert('Deposit sucessfull!!!',
                             color='success',
                             dismissable=True)
@@ -248,7 +244,7 @@ def make_withdraw_click(
         "description": 'Some random description',
         "amount": value_amount,
     }
-    print(withdraw_data)
+
     logger.debug(f'Info for the withdraw: {withdraw_data}')
     val, issue = withdraw_val(withdraw_data)
     if val:
@@ -258,11 +254,7 @@ def make_withdraw_click(
              return dbc.Alert("Error with account destiny or amount",
                             color='danger',
                             dismissable=True)
-        print('-'*30)
-        print(response.headers)
-        print('-'*30)
-        print(response.json)
-        print(response.text)
+
         return dbc.Alert('Withdraw sucessfull!!!',
                             color='success',
                             dismissable=True)
@@ -299,7 +291,7 @@ def make_transaction_click(
         "description": 'Some random description',
         "amount": value_amount,
     }
-    print(transaction_data)
+
     logger.debug(f'Info for the transaction: {transaction_data}')
     val, issue = transaction_val(transaction_data)
     if val:
@@ -309,11 +301,6 @@ def make_transaction_click(
              return dbc.Alert("Error with account destiny or amount",
                             color='danger',
                             dismissable=True)
-        print('-'*30)
-        print(response.headers)
-        print('-'*30)
-        print(response.json)
-        print(response.text)
         return dbc.Alert('Transaction sucessfull!!!',
                             color='success',
                             dismissable=True)
