@@ -16,6 +16,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   build-image:
+    needs: [sonnar-scanner-analysis]
     if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     steps:
@@ -33,7 +34,7 @@ jobs:
           push: true
           tags: aolguin89/bank-web-ui:${{ vars.MAJOR }}.${{ vars.MINOR }}-${{ github.run_number }}
   deploy:
-    needs: [build-image, sonnar-scanner-analysis]
+    needs: [build-image]
     if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     steps:

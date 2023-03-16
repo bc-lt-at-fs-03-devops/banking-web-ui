@@ -227,7 +227,6 @@ def make_transaction_click(
     if val:
         logger.debug('Send request to save the transaction data')
         response = requests.post('http://' + IP_ADRESS + ':9000/transactions', json=transaction_data)
-        print(response.status_code)
         if response.status_code == 400:
              return dbc.Alert("Error with account destiny or amount",
                             color='danger',

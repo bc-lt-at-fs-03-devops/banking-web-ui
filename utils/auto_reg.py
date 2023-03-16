@@ -18,8 +18,6 @@ else:
 data_dir= os.path.join(os.path.dirname(__file__), '..', 'data')
 user_json = os.path.join(data_dir, 'new_us.json')
 list_login = list()
-#print(os.path.dirname(__file__))
-#print(data_dir)
 with open(user_json) as f_json:
     new_users = json.load(f_json)
 
@@ -28,7 +26,6 @@ for user in new_users:
     response = requests.post('http://' + IP + ':9000/users', json=user)
     # Load the response info for login
     login_data = json.loads(response.text)
-    #print(login_data)
     # Dictionary to login
     login = {"username": login_data["username"], 
              "password": login_data["password"], 
@@ -43,12 +40,10 @@ for user in new_users:
         if random.randint(0, 1) == 1:
             new_account = requests.post('http://' + IP + ':9000/accounts', headers={'Authorization':the_token})
             account = json.loads(new_account.text)
-            print(account)
             login_data['cbu'].append(account['cbu'])
         if random.randint(0, 1) == 1:
             new_account = requests.post('http://' + IP + ':9000/accounts', headers={'Authorization':the_token})
             account = json.loads(new_account.text)
-            print(account)
             login_data['cbu'].append(account['cbu'])
         list_login.append(login_data)
         
@@ -59,7 +54,6 @@ for user in new_users:
 
 
 for i in range(len(list_login)):
-    #print(list_login)
     for account in list_login[i]['cbu']:
         # Dictionary to login
         login = {"username": list_login[i]["username"], 
